@@ -1,0 +1,54 @@
+{% extends 'News/base.html' %}
+{% load static %}
+
+{% block title %}
+    {{ article.article_title }}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>{{ article.article_title }}</h1>
+        <p>{{ article.article_text|safe }}</p><br>
+        <span>{{ article.pub_date }}</span><a style="margin-left:79%" href="{% url 'author_url' article.author.id %}">{{ article.author }}</a>
+        <hr>
+        <div style="margin-top: 30px; margin-bottom: 30px;">
+        <h3>Теги</h3>
+        {% if article.genres.all %}
+        <p>{% for tag in article.genres.all %}<a href="{% url 'tag_view_url'  tag.slug %}">{{ tag.title }}&nbsp;</a>{% endfor %}</p>
+        {% else %}
+            <p>Теги не найдены</p>
+        {% endif %}
+        </div>
+        <hr>
+        <div style="margin-top: 30px;">
+        <h2>Комментарии</h2>
+        {% if comments %}
+            {% for comment in comments %}
+                <ul class="itemCommentsList">
+                    <li class="even">
+                        <img class="img-view" src="//www.gravatar.com/avatar/f23220c769bb672ab915b31ecdc10b4f?s=60&amp;default=https%3A%2F%2Fgeekworld.info%2Fcomponents%2Fcom_k2%2Fimages%2Fplaceholder%2Fuser.png" alt="{{ comment.author_name }}" width="60">
+                        <div style=" margin-left: 100px; margin-top: 0px;">
+                              <span> {{ comment.author_name }} </span>
+                              <span style = "margin-left: 40px;"> {{ comment.pub_date }} </span>
+                              <p style="margin-top: 15px">{{ comment.comment_text|safe }}</p>
+                        </div>
+                    </li>
+
+                </ul>
+            {% endfor %}
+        {% else %}
+            Коментарии не найдены
+        {% endif %}
+        </div>
+        <hr>
+    <h2>Оставить комментарий</h2>
+    <form method="POST" action="{% url 'leave_comment_url' article.article_slug %}">
+        {% csrf_token %}
+        <input class="form-control form-control-lg" type="text" required placeholder="Ваше имя" name="name"><br>
+        <textarea name="text" required placeholder="Текст комментария" class="form-control" id="exampleFormControlTextarea1" cols="30" rows="10"></textarea><br>
+        <button type="submit" class="btn btn-primary">Оставить комментарий</button>
+    </form>
+
+
+    </div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'News/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    Кооперация
+{% endblock %}
+
+{% block content %}
+    <h1>Сотрудничество</h1>
+    <h4>Вы можете предложить свою статью, всегда будем рады ее опубликовать</h4>
+        <form class="" action="{% url 'cooperation_url' %}" method="post">
+    {% csrf_token %}
+            {{ form|crispy }}
+    <button type="submit" class="btn btn-danger">Предложить статью</button>
+    </form>
+    <p>Статья появиться после одобрения нашими Администраторами</p>
+    <p>Пишите свои предложиния на почту spynews.info@gmail.com </p>
+{% endblock %}

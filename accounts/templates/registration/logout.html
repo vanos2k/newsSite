@@ -1,0 +1,10 @@
+{% extends 'registration/base.html' %}
+
+{% block title %}
+    Выход
+{% endblock %}
+
+{% block content %}
+<p>You are logged out!</p>
+<a  href="{% url 'login' %}">Log in again</a>
+{% endblock %}
